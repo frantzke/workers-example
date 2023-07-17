@@ -11,7 +11,7 @@ app.get('/increment', (req, res) => {
 });
 
 app.get('/decrement', (req, res) => {
-  counter++;
+  counter--;
   res.status(200).json({ counter });
 });
 
