@@ -22,6 +22,22 @@ app.get('/sum', (req, res) => {
   });
 });
 
+app.get('/factorial/:num', (req, res) => {
+  let { num } = req.params;
+  num = parseInt(num);
+  if (isNaN(num)) {
+    res.status(400).json({ message: 'Not a number' });
+    return;
+  }
+
+  const worker = new Worker('./workers/factorial-worker.js', {
+    workerData: { num },
+  });
+  worker.on('message', ({ factorial }) => {
+    res.status(200).json({ factorial });
+  });
+});
+
 app.listen(PORT, (error) => {
   if (!error)
     console.log(
